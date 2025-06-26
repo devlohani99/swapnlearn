@@ -1,7 +1,6 @@
 import {create} from 'zustand';
 
-const API_URL='http://localhost:5000/api';
-
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 export const useAuthStore=create((set,get)=>({
   user:null,
   token:localStorage.getItem('token')||null,
@@ -11,7 +10,7 @@ export const useAuthStore=create((set,get)=>({
   signup:async({username,email,password})=>{
     set({loading:true,error:null});
     try{
-      const res=await fetch('${API_URL}/auth/signup',{
+      const res=await fetch(`${API_URL}/auth/signup`,{
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify({username,email,password}),
@@ -32,9 +31,9 @@ export const useAuthStore=create((set,get)=>({
     localStorage.removeItem('token');
   },
   signin: async({email,password})=>{
-    set({loding:true,error:null});
+    set({loading:true,error:null});
     try{
-      const res=await fetch('${API_URL}/api/signin',{
+      const res=await fetch(`${API_URL}/auth/signin`,{
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify({email,password}),
@@ -45,7 +44,7 @@ export const useAuthStore=create((set,get)=>({
       localStorage.setItem('token',data.token);
       return true;
     }
-    catch(error){
+    catch(err){
       set({loading:false,error:err.message});
       return false;
     }

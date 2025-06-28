@@ -2,23 +2,20 @@ import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-export const signup=async(req,res)=>{
-  try{
-    const {username,email,password}=req.body;
-
-    const existingUser=await User.findOne({email});
-
-    if(existingUser)return res.status(400).json({error:'Email already exist'});
-
-    const hashedPassword=await bcrypt.hash(password,10);
-
-    const user=new User({username,email,password:hashedPassword});
+export const signup = async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
+    if (!username || !email || !password) {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
+    const existingUser = await User.findOne({ email });
+    if (existingUser) return res.status(400).json({ error: 'Email already in use' });
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = new User({ username, email, password: hashedPassword });
     await user.save();
-
-    res.status(201).json({message:'User registered successfully'});
-  }
-  catch(err){
-    res.status(500).json({error:err.message});
+    res.status(201).json({ message: 'User registered successfully' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
 

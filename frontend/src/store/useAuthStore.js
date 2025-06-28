@@ -50,7 +50,7 @@ export const useAuthStore=create((set,get)=>({
     }
   },
 
-  fetchProffile:async()=>{
+  fetchProfile:async()=>{
     set({loading:true,error:null});
     try{
       const token=get().token;

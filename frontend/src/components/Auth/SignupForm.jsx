@@ -1,5 +1,6 @@
 import React,{useState} from 'react';
 import { useAuthStore } from '../../store/useAuthStore';
+import { useNavigate } from 'react-router-dom';
 
 const SignupForm=()=>{
 
@@ -8,17 +9,21 @@ const SignupForm=()=>{
   const error=useAuthStore((state)=>state.error);
 
   const [form,setForm]=useState({username:'',email:'',password:''});
+  const navigate = useNavigate();
 
   const handleChange=(e)=>{
     setForm({...form,[e.target.name]:e.target.value});
 
   };
 
+
   const handleSubmit=async(e)=>{
     e.preventDefault();
-    await signup(form);
-
-  };
+    const success = await signup(form);
+    if (success) {
+      navigate('/edit-profile');
+    }
+  }
   return (
 <form onSubmit={handleSubmit} className="space-y-4 max-w-sm mx-auto">
       <input

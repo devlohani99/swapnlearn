@@ -21,10 +21,10 @@ export const getAllUsers = async (req, res) => {
 };
 export const updateProfile = async (req, res) => {
   try {
-    const { username, bio, skillsToTeach, skillstoLearn } = req.body;
+    const { username, bio, skillsToTeach, skillstoLearn, imageUrl } = req.body;
     const user = await User.findByIdAndUpdate(
       req.user.id,
-      { username, bio, skillsToTeach, skillstoLearn },
+      { username, bio, skillsToTeach, skillstoLearn, imageUrl },
       { new: true }
     ).select('-password');
     res.json(user);

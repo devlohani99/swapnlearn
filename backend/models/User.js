@@ -20,6 +20,7 @@ const userSchema = new mongoose.Schema({
   skillsToTeach: [String],
   skillstoLearn: [String],
   connections: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  imageUrl: { type: String },
 });
 
 const User = mongoose.model("User", userSchema);
